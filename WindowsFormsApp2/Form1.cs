@@ -34,8 +34,6 @@ namespace WindowsFormsApp2
 
         string path = "C:\\Users\\MadFox\\source\\repos\\WindowsFormsApp2\\WindowsFormsApp2\\former_values.json";
 
-
-
         public Form1()
         {
             InitializeComponent();
@@ -106,6 +104,13 @@ namespace WindowsFormsApp2
             _treebuilder.TreeUpdate+=TreeBuilder_TreeUpdate;
             _treebuilder.SetCur += TreeBuilder_SetCur;
             _treebuilder.WorkCompleted += TreeBuilder_WorkCompleted;
+
+            FormerValues formerValues = new FormerValues(textBox1.Text, textBox2.Text, textBox3.Text);
+
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                jsonFormatter.WriteObject(fs, formerValues);
+            }
 
             _date = DateTime.Now;
             timer.Start();
