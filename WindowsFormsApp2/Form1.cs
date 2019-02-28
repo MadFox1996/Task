@@ -39,7 +39,7 @@ namespace WindowsFormsApp2
         {
             InitializeComponent();
 
-            using (FileStream fstream = new FileStream(@"../FormerValues.json", FileMode.Open))
+            using (FileStream fstream = new FileStream(@"../FormerValues.json", FileMode.OpenOrCreate))
             {
                 _formerValues = new FileInfo(@"../FormerValues.json");
             }
