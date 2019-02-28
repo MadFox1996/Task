@@ -32,13 +32,19 @@ namespace WindowsFormsApp2
 
         DataContractJsonSerializer jsonFormatter = new DataContractJsonSerializer(typeof(FormerValues));
 
-        string path = "C:\\Users\\MadFox\\source\\repos\\WindowsFormsApp2\\WindowsFormsApp2\\former_values.json";
+        private FileInfo _formerValues;
+        
 
         public Form1()
         {
             InitializeComponent();
 
-            if (new FileInfo(path).Length == 0)
+            using (FileStream fstream = new FileStream(@"../FormerValues.json", FileMode.Open))
+            {
+                _formerValues = new FileInfo(@"../FormerValues.json");
+            }
+
+            if (new FileInfo(_formerValues.FullName).Length == 0)
             {
                 textBox1.Text = "";
                 textBox2.Text = "";
@@ -46,7 +52,7 @@ namespace WindowsFormsApp2
             }
             else
             {
-                using(FileStream sr = new FileStream(path,FileMode.Open))
+                using(FileStream sr = new FileStream(_formerValues.FullName, FileMode.Open))
                 {
                     FormerValues fv = (FormerValues)jsonFormatter.ReadObject(sr);
                     textBox1.Text = fv.path;
@@ -107,7 +113,7 @@ namespace WindowsFormsApp2
 
             FormerValues formerValues = new FormerValues(textBox1.Text, textBox2.Text, textBox3.Text);
 
-            using (FileStream fs = new FileStream(path, FileMode.Create))
+            using (FileStream fs = new FileStream(_formerValues.FullName, FileMode.Create))
             {
                 jsonFormatter.WriteObject(fs, formerValues);
             }
@@ -149,7 +155,6 @@ namespace WindowsFormsApp2
 
             _treebuilder.SetPause();
             TimerPause();
-
             _date = DateTime.Now;
             timer.Start();
         }
@@ -161,6 +166,7 @@ namespace WindowsFormsApp2
             button2.Enabled = false;
             button1.Enabled = true;
             _treebuilder.Cancel();
+            _timerpause = false;
             timer.Stop();
         }
 
@@ -171,7 +177,6 @@ namespace WindowsFormsApp2
                 if (result)
                 {
                     button3.Enabled = true;
-                    timer.Stop();
                 }
                 else
                 {

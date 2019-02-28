@@ -9,9 +9,6 @@ namespace WindowsFormsApp2
     [DataContract]
     class FormerValues
     {
-        public const string dbpath = "C:\\Users\\MadFox\\source\repos\\WindowsFormsApp2\\" +
-            "WindowsFormsApp2\\former_values.data";
-
         [DataMember]
         public string path { get; set; }
         [DataMember]
